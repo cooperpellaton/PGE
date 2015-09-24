@@ -4,8 +4,9 @@ var openpgp = require('openpgp');
 
 var options = {
   numBits: 2048,
-  userId: 'Jon Smith <jon.smith@example.org>',
-  passphrase: 'super long and hard to guess secret'
+  var userID = user;
+  userId: user-select,
+  passphrase: password,
 };
 
 openpgp.generateKeyPair(options).then(function(keypair) {
