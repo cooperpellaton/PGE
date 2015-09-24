@@ -10,7 +10,6 @@
 
 var oldXMLHttpRequest = XMLHttpRequest;
 XMLHttpRequest = function() {
-    console.log(arguments);
     var request = new oldXMLHttpRequest();
     var facade = {
         addEventListener: function(type, listener) {
@@ -20,8 +19,7 @@ XMLHttpRequest = function() {
             return request.setRequestHeader.apply(request, arguments);
         },
         getAllResponseHeaders: function() {
-            return request.getAllResponseHeaders.apply(request,
-                                                       arguments);
+            return request.getAllResponseHeaders.apply(request, arguments);
         },
         getResponseHeader: function() {
             return request.getResponseHeader.apply(request, arguments);
@@ -34,18 +32,16 @@ XMLHttpRequest = function() {
             request.open(method, url, async, user, password);
         },
         send: function(data) {
-            request.onreadystatechange = function() {
-                if (request.readyState = 4) {
-                    console.log(facade.__url);
-                    console.log(request.response);
-
-                    facade.status = request.status;
-                    facade.response = request.response;
-                    facade.responseType = request.responseType;
-
+            request.onreadystatechange = function(event) {
+                facade.readyState = request.readyState;
+                facade.status = request.status;
+//                facade.response = request.response;
+                if (request.responseText) {
+                    facade.responseText = transform(request.responseText);
                 }
+                facade.responseType = request.responseType;
                 if (facade.onreadystatechange) {
-                    facade.onreadystatechange();
+                    return facade.onreadystatechange(event);
                 }
             };
             return request.send(data);
@@ -54,7 +50,27 @@ XMLHttpRequest = function() {
     return facade;
 };
 
+Components.utils.import("reosource://app/window.openpgp");
 
+$.getScript("encryptor.js", function()){
+  alert("The encryption scheme has been loading but cannot be assumed to work at this point.")
+}
+
+var transform = function(data) {
+    var resp = JSON.parse(data);
+    for (var i = resp.length; i-- ;) {
+        if (resp[i][0] === "messageDetails") {
+            var detailsList = resp[i][1].detailsList;
+            for (var j = detailsList.length; j-- ;) {
+                detailsList[j].body = detailsList[j].body.replace(" ", );
+                console.log(detailsList[j].body)
+            }
+        }
+    }
+    return JSON.stringify(resp);
+}
+
+/*
 var oldWindowEventSource = window.EventSource;
 window.EventSource = function(url) {
     console.log(url);
@@ -67,3 +83,4 @@ window.EventSource = function(url) {
         }
     };
 };
+*/
