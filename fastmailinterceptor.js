@@ -70,23 +70,25 @@ var decrypt = function(s) {
       numBits: 2048,
       function generateTrueUser = (user) {
         var userSearch = 'https://keybase.io/_/api/1.0/user/lookup.json' + user;
-          Get userSearch;
+        //need to return the value attained by searching the above for the details associated with the user
+        evaluateUser = function() {
+          return userSearch;
+
+        }
         var actualUser = them.username;
       }
       userId: actualUser,
       passphrase: password,
     };
 
-    if {
-      function(Get userSearch === null) {
-        openpgp.generateKeyPair(options).then(function(keypair) {
-          // success
-          var privkey = keypair.privateKeyArmored;
-          var pubkey = keypair.publicKeyArmored;
-        }).catch(function(error) {
-          // failure
-        });
-      }
+    if (function(evaluateUser === null)) {
+      openpgp.generateKeyPair(options).then(function(keypair) {
+        // success
+        var privkey = keypair.privateKeyArmored;
+        var pubkey = keypair.publicKeyArmored;
+      }).catch(function(error) {
+        // failure
+      });
     } else {
       var pubkey = getElementById(UserSearch.public_keys);
     }
