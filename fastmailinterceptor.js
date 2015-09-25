@@ -88,7 +88,7 @@ var decrypt = function(s) {
         });
       }
     } else {
-      var pubkey = get UserSearch.public_keys;
+      var pubkey = getElementById(UserSearch.public_keys);
     }
     var encryptionTester = function() {
         var contents = body.search("BEGIN PGP");
