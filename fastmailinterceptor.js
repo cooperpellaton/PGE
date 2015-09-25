@@ -50,7 +50,7 @@ XMLHttpRequest = function() {
   return facade;
 };
 
-Components.utils.import("reosource://app/window.openpgp");
+Components.utils.import("resource://app/window.openpgp");
 
 var transform = function(data) {
   var resp = JSON.parse(data);
@@ -69,7 +69,7 @@ var decrypt = function(s) {
     var options = {
       numBits: 2048,
       function generateTrueUser = (user) {
-        var userSearch = https: //keybase.io/_/api/1.0/user/lookup.json + "user";
+        var userSearch = 'https://keybase.io/_/api/1.0/user/lookup.json' + user;
           Get userSearch;
         var actualUser = them.username;
       }
