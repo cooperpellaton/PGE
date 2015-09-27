@@ -7,7 +7,9 @@
 // @match        https://www.fastmail.com/*
 // @grant        none
 // ==/UserScript==
-
+"permissions":[
+  "https://keybase.io"
+]
 var oldXMLHttpRequest = XMLHttpRequest;
 XMLHttpRequest = function() {
   var request = new oldXMLHttpRequest();
@@ -66,15 +68,18 @@ var transform = function(data) {
 };
 
 var decrypt = function(s) {
+var keybaseCaller = new XMLHttpRequest();
+keybaseCaller.onreadystatechange = handleStateChange;
+keybaseCaller("GET", chrome.extension.getURL('')
+)
     /*var options = {
       numBits: 2048,
       function generateTrueUser = (user) {
-        var userSearch = 'https://keybase.io/_/api/1.0/user/lookup.json' + user;
-        //need to return the value attained by searching the above for the details associated with the user
-        evaluateUser = function() {
-          return userSearch;
-
-        }
+        var keybaseCaller = new XMLHttpRequest();
+        keybaseCaller.onreadystatechange = handleStateChange;
+        keybaseCaller("GET", chrome.extension.getURL('https://keybase.io/_/api/1.0/user/lookup.json' + 'user'), true);
+        keybaseCaller.send();
+        )
         var actualUser = them.username;
       }
       userId: actualUser,
