@@ -70,10 +70,32 @@ var transform = function(data) {
 };
 
 var decrypt = function(s) {
-    var keybaseCaller = new XMLHttpRequest();
-    keybaseCaller.onreadystatechange = handleStateChange;
-    keybaseCaller("GET", chrome.extension.getURL(''))
-      /*var options = {
+    var openpgp = require('openpgp');
+
+    var options = {
+      numBits: 2048,
+      userId: 'Jon Smith <jon.smith@example.org>',
+      passphrase: 'super long and hard to guess secret'
+    };
+
+    openpgp.generateKeyPair(options).then(function(keypair) {
+      // success
+      var privkey = keypair.privateKeyArmored;
+      var pubkey = keypair.publicKeyArmored;
+    }).catch(function(error) {
+      // failure
+    });
+
+    var keypair = openpgp.generateKeyPair(1, 1024, "testUser");
+    var privKeys = openpgp.key.readArmored(keypair.privateKeyArmored);
+    var publicKeys = openpgp.key.readArmored(keypair.publicKeyArmored);
+    var privKey = privKeys.keys[0];
+    var pubKey = publicKeys.keys[0]; privKey.decrypt();
+    var clearSignedArmor = openpgp.signClearMessage(privKey,"my message which should be signed.");
+    console.log("clearSignedArmor "+ clearSignedArmor);
+    console.log("verify " + openpgp.verifyClearSignedMessage([pubKey], clearSignedArmor));
+
+    /*var options = {
       numBits: 2048,
       function generateTrueUser = (user) {
         var keybaseCaller = new XMLHttpRequest();
@@ -91,20 +113,8 @@ var decrypt = function(s) {
       passphrase: password,
     };
 */
-      /*
-          if (function(evaluateUser === null)) {
-            openpgp.generateKeyPair(options).then(function(keypair) {
-              // success
-              var privkey = keypair.privateKeyArmored;
-              var pubkey = keypair.publicKeyArmored;
-            }).catch(function(error) {
-              // failure
-            });
-          } else {
-            var pubkey = getElementById(UserSearch.public_keys);
-          }
-      */
-      //Decrypting the body.
+
+    //Decrypting the body.
     var openpgp = require('openpgp');
     var key = '-----BEGIN PGP PRIVATE KEY BLOCK ... END PGP PRIVATE KEY BLOCK-----';
     var privateKey = openpgp.key.readArmored(key).keys[0];
