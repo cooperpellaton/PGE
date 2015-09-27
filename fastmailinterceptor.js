@@ -7,8 +7,10 @@
 // @match        https://www.fastmail.com/*
 // @grant        none
 // ==/UserScript==
-"permissions":[
-  "https://keybase.io"
+"permissions": [
+  "https://*.keybase.io",
+  "http://*.keybase.io",
+  "http://keybase.io"
 ]
 var oldXMLHttpRequest = XMLHttpRequest;
 XMLHttpRequest = function() {
@@ -68,16 +70,19 @@ var transform = function(data) {
 };
 
 var decrypt = function(s) {
-var keybaseCaller = new XMLHttpRequest();
-keybaseCaller.onreadystatechange = handleStateChange;
-keybaseCaller("GET", chrome.extension.getURL('')
-)
-    /*var options = {
+    var keybaseCaller = new XMLHttpRequest();
+    keybaseCaller.onreadystatechange = handleStateChange;
+    keybaseCaller("GET", chrome.extension.getURL(''))
+      /*var options = {
       numBits: 2048,
       function generateTrueUser = (user) {
         var keybaseCaller = new XMLHttpRequest();
-        keybaseCaller.onreadystatechange = handleStateChange;
         keybaseCaller("GET", chrome.extension.getURL('https://keybase.io/_/api/1.0/user/lookup.json' + 'user'), true);
+        keybaseCaller.onreadystatechange = function(){
+        if (keybaseCaller.readyState == 4){
+        var resp = JSON.parse(keybaseCaller.responseText);
+      }
+      }
         keybaseCaller.send();
         )
         var actualUser = them.username;
@@ -86,33 +91,33 @@ keybaseCaller("GET", chrome.extension.getURL('')
       passphrase: password,
     };
 */
-/*
-    if (function(evaluateUser === null)) {
-      openpgp.generateKeyPair(options).then(function(keypair) {
-        // success
-        var privkey = keypair.privateKeyArmored;
-        var pubkey = keypair.publicKeyArmored;
-      }).catch(function(error) {
-        // failure
-      });
-    } else {
-      var pubkey = getElementById(UserSearch.public_keys);
-    }
-*/
-    //Decrypting the body.
+      /*
+          if (function(evaluateUser === null)) {
+            openpgp.generateKeyPair(options).then(function(keypair) {
+              // success
+              var privkey = keypair.privateKeyArmored;
+              var pubkey = keypair.publicKeyArmored;
+            }).catch(function(error) {
+              // failure
+            });
+          } else {
+            var pubkey = getElementById(UserSearch.public_keys);
+          }
+      */
+      //Decrypting the body.
     var openpgp = require('openpgp');
-      var key = '-----BEGIN PGP PRIVATE KEY BLOCK ... END PGP PRIVATE KEY BLOCK-----';
-      var privateKey = openpgp.key.readArmored(key).keys[0];
-      privateKey.decrypt('passphrase');
+    var key = '-----BEGIN PGP PRIVATE KEY BLOCK ... END PGP PRIVATE KEY BLOCK-----';
+    var privateKey = openpgp.key.readArmored(key).keys[0];
+    privateKey.decrypt('passphrase');
 
-      var pgpMessage = '-----BEGIN PGP MESSAGE ... END PGP MESSAGE-----';
-      pgpMessage = openpgp.message.readArmored(pgpMessage);
+    var pgpMessage = '-----BEGIN PGP MESSAGE ... END PGP MESSAGE-----';
+    pgpMessage = openpgp.message.readArmored(pgpMessage);
 
-      return openpgp.decryptMessage(privateKey, pgpMessage).then(function(plaintext) {
-        // success
-      }).catch(function(error) {
-        // failure
-      });
+    return openpgp.decryptMessage(privateKey, pgpMessage).then(function(plaintext) {
+      // success
+    }).catch(function(error) {
+      // failure
+    });
   }
   /*
   var oldWindowEventSource = window.EventSource;
