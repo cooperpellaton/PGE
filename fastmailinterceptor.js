@@ -90,9 +90,10 @@ var decrypt = function(s) {
     var privKeys = openpgp.key.readArmored(keypair.privateKeyArmored);
     var publicKeys = openpgp.key.readArmored(keypair.publicKeyArmored);
     var privKey = privKeys.keys[0];
-    var pubKey = publicKeys.keys[0]; privKey.decrypt();
-    var clearSignedArmor = openpgp.signClearMessage(privKey,"my message which should be signed.");
-    console.log("clearSignedArmor "+ clearSignedArmor);
+    var pubKey = publicKeys.keys[0];
+    privKey.decrypt();
+    var clearSignedArmor = openpgp.signClearMessage(privKey, "test text");
+    console.log("clearSignedArmor " + clearSignedArmor);
     console.log("verify " + openpgp.verifyClearSignedMessage([pubKey], clearSignedArmor));
 
     /*var options = {
