@@ -9,10 +9,11 @@
 // ==/UserScript==
 chrome.permissions.request({
   permissions: [
-  "https://*.keybase.io",
-  "http://*.keybase.io",
-  "http://keybase.io"
-]});
+    "https://*.keybase.io",
+    "http://*.keybase.io",
+    "http://keybase.io"
+  ]
+});
 var oldXMLHttpRequest = XMLHttpRequest;
 XMLHttpRequest = function() {
   var request = new oldXMLHttpRequest();
@@ -71,34 +72,34 @@ var transform = function(data) {
 };
 
 var decrypt = function(s) {
-    var openpgp = require('openpgp');
+  var openpgp = require('openpgp');
 
-    var options = {
-      numBits: 2048,
-      userId: 'Jon Smith <jon.smith@example.org>',
-      passphrase: 'super long and hard to guess secret'
-    };
+  var options = {
+    numBits: 2048,
+    userId: 'Jon Smith <jon.smith@example.org>',
+    passphrase: 'super long and hard to guess secret'
+  };
 
-    openpgp.generateKeyPair(options).then(function(keypair) {
-      // success
-      var privkey = keypair.privateKeyArmored;
-      var pubkey = keypair.publicKeyArmored;
-    }).catch(function(error) {
-      // failure
-    });
+  openpgp.generateKeyPair(options).then(function(keypair) {
+    // success
+    var privkey = keypair.privateKeyArmored;
+    var pubkey = keypair.publicKeyArmored;
+  }).catch(function(error) {
+    // failure
+  });
 
-    var keypair = openpgp.generateKeyPair(1, 1024, "testUser");
-    var privKeys = openpgp.key.readArmored(keypair.privateKeyArmored);
-    var publicKeys = openpgp.key.readArmored(keypair.publicKeyArmored);
-    var privKey = privKeys.keys[0];
-    var pubKey = publicKeys.keys[0];
-    privKey.decrypt();
-    var clearSignedArmor = openpgp.signClearMessage(privKey, "test text");
-    openpgp.encryptMessage(publicKey.keys,'body').then(function(pgpMessage));
-    console.log("clearSignedArmor " + clearSignedArmor);
-    console.log("verify " + openpgp.verifyClearSignedMessage([pubKey], clearSignedArmor));
+  var keypair = openpgp.generateKeyPair(1, 1024, "testUser");
+  var privKeys = openpgp.key.readArmored(keypair.privateKeyArmored);
+  var publicKeys = openpgp.key.readArmored(keypair.publicKeyArmored);
+  var privKey = privKeys.keys[0];
+  var pubKey = publicKeys.keys[0];
+  privKey.decrypt();
+  var clearSignedArmor = openpgp.signClearMessage(privKey, "test text");
+  openpgp.encryptMessage(publicKey.keys, 'body').then(function(pgpMessage));
+  console.log("clearSignedArmor " + clearSignedArmor);
+  console.log("verify " + openpgp.verifyClearSignedMessage([pubKey], clearSignedArmor));
 
-    /*var options = {
+  /*var options = {
       numBits: 2048,
       function generateTrueUser = (user) {
         var keybaseCaller = new XMLHttpRequest();
@@ -117,31 +118,31 @@ var decrypt = function(s) {
     };
 */
 
-    //Decrypting the body.
-    var key = '-----BEGIN PGP PRIVATE KEY BLOCK ... END PGP PRIVATE KEY BLOCK-----';
-    var privateKey = openpgp.key.readArmored(key).keys[0];
-    privateKey.decrypt('passphrase');
+  //Decrypting the body.
+  var key = '-----BEGIN PGP PRIVATE KEY BLOCK ... END PGP PRIVATE KEY BLOCK-----';
+  var privateKey = openpgp.key.readArmored(key).keys[0];
+  privateKey.decrypt('passphrase');
 
-    var pgpMessage = '-----BEGIN PGP MESSAGE ... END PGP MESSAGE-----';
-    pgpMessage = openpgp.message.readArmored(pgpMessage);
+  var pgpMessage = '-----BEGIN PGP MESSAGE ... END PGP MESSAGE-----';
+  pgpMessage = openpgp.message.readArmored(pgpMessage);
 
-    return openpgp.decryptMessage(privateKey, pgpMessage).then(function(plaintext) {
-      // success
-    }).catch(function(error) {
-      // failure
-    });
-  };
-  /*
-  var oldWindowEventSource = window.EventSource;
-  window.EventSource = function(url) {
-      console.log(url);
-      var source = new oldWindowEventSource(url);
-      return {
-          addEventListener: function(n, f, b) {
-              source.addEventListener(n, new function(e) {
-                  console.log(arguments);
-              }, b);
-          }
-      };
-  };
-  */
+  return openpgp.decryptMessage(privateKey, pgpMessage).then(function(plaintext) {
+    // success
+  }).catch(function(error) {
+    // failure
+  });
+};
+/*
+var oldWindowEventSource = window.EventSource;
+window.EventSource = function(url) {
+    console.log(url);
+    var source = new oldWindowEventSource(url);
+    return {
+        addEventListener: function(n, f, b) {
+            source.addEventListener(n, new function(e) {
+                console.log(arguments);
+            }, b);
+        }
+    };
+};
+*/
