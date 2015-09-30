@@ -94,7 +94,7 @@ var decrypt = function(s) {
     var pubKey = publicKeys.keys[0];
     privKey.decrypt();
     var clearSignedArmor = openpgp.signClearMessage(privKey, "test text");
-    openpgp.encryptMessage(publicKey.keys, 'body').then(function(pgpMessage));
+    openpgp.encryptMessage(publicKey.keys,'body').then(function(pgpMessage));
     console.log("clearSignedArmor " + clearSignedArmor);
     console.log("verify " + openpgp.verifyClearSignedMessage([pubKey], clearSignedArmor));
 
@@ -118,7 +118,6 @@ var decrypt = function(s) {
 */
 
     //Decrypting the body.
-    var openpgp = require('openpgp');
     var key = '-----BEGIN PGP PRIVATE KEY BLOCK ... END PGP PRIVATE KEY BLOCK-----';
     var privateKey = openpgp.key.readArmored(key).keys[0];
     privateKey.decrypt('passphrase');
@@ -131,7 +130,7 @@ var decrypt = function(s) {
     }).catch(function(error) {
       // failure
     });
-  }
+  };
   /*
   var oldWindowEventSource = window.EventSource;
   window.EventSource = function(url) {
