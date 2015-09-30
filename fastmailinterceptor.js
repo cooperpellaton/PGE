@@ -7,11 +7,12 @@
 // @match        https://www.fastmail.com/*
 // @grant        none
 // ==/UserScript==
-"permissions": [
+chrome.permissions.request({
+  permissions: [
   "https://*.keybase.io",
   "http://*.keybase.io",
   "http://keybase.io"
-]
+]});
 var oldXMLHttpRequest = XMLHttpRequest;
 XMLHttpRequest = function() {
   var request = new oldXMLHttpRequest();
@@ -93,6 +94,7 @@ var decrypt = function(s) {
     var pubKey = publicKeys.keys[0];
     privKey.decrypt();
     var clearSignedArmor = openpgp.signClearMessage(privKey, "test text");
+    openpgp.encryptMessage(publicKey.keys, 'body').then(function(pgpMessage));
     console.log("clearSignedArmor " + clearSignedArmor);
     console.log("verify " + openpgp.verifyClearSignedMessage([pubKey], clearSignedArmor));
 
