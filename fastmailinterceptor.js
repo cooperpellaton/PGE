@@ -71,9 +71,14 @@ var transform = function(data) {
   return JSON.stringify(resp);
 };
 
-var getUser = function (user) {
+var getUser = function(user) {
   return user;
 }
+
+var getRecipient = function(to){
+  return to;
+}
+
 var decrypt = function(s) {
   var openpgp = require('openpgp');
 
@@ -90,59 +95,59 @@ var decrypt = function(s) {
   }).catch(function(error) {
     // failure
   });
-/*Import a keymanager from a Public Key. */
-var user_pgp_key = "-----BEGIN PGP PUBLIC ... etc.";
+  /*Import a keymanager from a Public Key. */
+  var user_pgp_key = "-----BEGIN PGP PUBLIC ... etc.";
 
-kbpgp.KeyManager.import_from_armored_pgp({
-  armored: user_pgp_key
-}, function(err, user) {
-  if (!err) {
-    console.log(user + " is loaded");
-  }
-});
-/* end import. */
+  kbpgp.KeyManager.import_from_armored_pgp({
+    armored: user_pgp_key
+  }, function(err, user) {
+    if (!err) {
+      console.log(user + " is loaded");
+    }
+  });
+  /* end import. */
 
-/* Import a keymangeer from a Private Key */
-var user_public_key = "-----BEGIN PGP PUBLIC ... etc.";
-var user_private_key = "-----BEGIN PGP PRIVATE ... etc.";
-var user_passphrase = "ovarian fred savage ";
+  /* Import a keymangeer from a Private Key */
+  var user_public_key = "-----BEGIN PGP PUBLIC ... etc.";
+  var user_private_key = "-----BEGIN PGP PRIVATE ... etc.";
+  var user_passphrase = "ovarian fred savage ";
 
-kbpgp.KeyManager.import_from_armored_pgp({
-  armored: user_public_key
-}, function(err, user) {
-  if (!err) {
-    user.merge_pgp_private({
-      armored: user_private_key
-    }, function(err) {
-      if (!err) {
-        if (user.is_pgp_locked()) {
-          user.unlock_pgp({
-            passphrase: user_passphrase
-          }, function(err) {
-            if (!err) {
-              console.log("Loaded private key with passphrase");
-            }
-          });
-        } else {
-          console.log("Loaded private key w/o passphrase");
+  kbpgp.KeyManager.import_from_armored_pgp({
+    armored: user_public_key
+  }, function(err, user) {
+    if (!err) {
+      user.merge_pgp_private({
+        armored: user_private_key
+      }, function(err) {
+        if (!err) {
+          if (user.is_pgp_locked()) {
+            user.unlock_pgp({
+              passphrase: user_passphrase
+            }, function(err) {
+              if (!err) {
+                console.log("Loaded private key with passphrase");
+              }
+            });
+          } else {
+            console.log("Loaded private key w/o passphrase");
+          }
         }
-      }
-    });
-  }
-});
-/*End addition of new Private Key from the public key. */
+      });
+    }
+  });
+  /*End addition of new Private Key from the public key. */
 
-/*Straight KBPGP.js code to interface with the Kayebase API */
+  /*Straight KBPGP.js code to interface with the Kayebase API */
   var params = {
-    msg:         'resp',
-    encrypt_for: getUser,
-    sign_with:   alice
+    msg: 'resp',
+    encrypt_for: getRecipient,
+    sign_with: getUser
   };
 
-  kbpgp.box (params, function(err, result_string, result_buffer) {
+  kbpgp.box(params, function(err, result_string, result_buffer) {
     console.log(err, result_string, result_buffer);
   });
-/*End KBPGP.js code implementation. */
+  /*End KBPGP.js code implementation. */
 
   var keypair = openpgp.generateKeyPair(1, 1024, "testUser");
   var privKeys = openpgp.key.readArmored(keypair.privateKeyArmored);
