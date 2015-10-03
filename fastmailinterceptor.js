@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         Fastmail Interceptor
-// @namespace    http://your.homepage/
+// @namespace    http://cepp.at/projects/PGE
 // @version      0.1
-// @description  enter something useful
-// @author       You
+// @description  Pretty Good Email -- A Pretty Good Email Encryptor based on Pretty Good Protction (PGP).
+// @author       Put some names that sound important here.
 // @match        https://www.fastmail.com/*
 // @grant        none
 // ==/UserScript==
@@ -82,19 +82,6 @@ var getRecipient = function(to){
 var decrypt = function(s) {
   var openpgp = require('openpgp');
 
-  var options = {
-    numBits: 2048,
-    userId: 'Jon Smith <jon.smith@example.org>',
-    passphrase: 'super long and hard to guess secret'
-  };
-
-  openpgp.generateKeyPair(options).then(function(keypair) {
-    // success
-    var privkey = keypair.privateKeyArmored;
-    var pubkey = keypair.publicKeyArmored;
-  }).catch(function(error) {
-    // failure
-  });
   /*Import a keymanager from a Public Key. */
   var user_pgp_key = "-----BEGIN PGP PUBLIC ... etc.";
 
