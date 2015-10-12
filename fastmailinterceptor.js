@@ -71,6 +71,8 @@ var transform = function(data) {
   return JSON.stringify(resp);
 };
 
+//Everything up to here works most certainly.
+
 var getUser = function(user) {
   return user;
 }
