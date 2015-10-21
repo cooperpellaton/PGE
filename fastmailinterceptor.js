@@ -84,7 +84,7 @@ var getRecipient = function(to){
 var decrypt = function(s) {
   var openpgp = require('openpgp');
 
-  /*Import a keymanager from a Public Key. */
+  /*Import a keymanager from a Public Key. Uses Keybase API caller. */
   var user_pgp_key = "-----BEGIN PGP PUBLIC ... etc.";
 
   kbpgp.KeyManager.import_from_armored_pgp({
@@ -96,7 +96,7 @@ var decrypt = function(s) {
   });
   /* end import. */
 
-  /* Import a keymangeer from a Private Key */
+  /* Import a keymanger from a Private Key using Keybase API caller.*/
   var user_public_key = "-----BEGIN PGP PUBLIC ... etc.";
   var user_private_key = "-----BEGIN PGP PRIVATE ... etc.";
   var user_passphrase = "ovarian fred savage ";
