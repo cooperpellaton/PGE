@@ -7,6 +7,8 @@
 // @match        https://www.fastmail.com/*
 // @grant        none
 // ==/UserScript==
+
+//This gets us the permission to do cross site scritping and to be able to call the proper APIs (mainly those from Keybase).
 chrome.permissions.request({
   permissions: [
     "https://*.keybase.io",
@@ -15,7 +17,7 @@ chrome.permissions.request({
   ]
 });
 
-//Tampermonkey is claiming that this, the above, will throw an error but the Chrome Extension will require this to allow cross site scripting.
+/*Tampermonkey is claiming that this, the above, will throw an error but the Chrome Extension will require this to allow cross site scripting. */
 
 var oldXMLHttpRequest = XMLHttpRequest;
 XMLHttpRequest = function() {
@@ -76,6 +78,7 @@ var transform = function(data) {
 
 var decrypt = function(s) {
 }
+//This is older code that handles the window sourcing.
 /*
 var oldWindowEventSource = window.EventSource;
 window.EventSource = function(url) {
