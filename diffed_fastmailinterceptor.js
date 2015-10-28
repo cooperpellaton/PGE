@@ -75,6 +75,19 @@ var transform = function(data) {
 };
 
 //Everything up to here works most certainly.
+//Pulling in Keybase API to grab keys off the keyring for a signing authority to be established.
+var encrypt = function(s){
+  var promise;
+  /*Below grabbed from the gmail-crypt open source plugin. All credit to Sean Coyler.
+  https://github.com/seancolyer/gmail-crypt/ */
+  var publicKeys = prepareAndValidateKeysForRecipients(recipients, from);
+  if (publicKeys && publicKeys.type && publicKeys.type == "error") {
+    promise = Promise.resolve(publicKeys);
+  } else {
+    promise = openpgp.encryptMessage(publicKeys, message);
+  }
+  handleResponsePromise(promise, callback);
+}
 
 var decrypt = function(s) {
 }
