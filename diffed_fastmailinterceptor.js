@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         Fastmail Interceptor2
+// @name         Fastmail Interceptor
 // @namespace    http://cepp.at/projects/PGE
 // @version      0.1
 // @description  Pretty Good Email -- A Pretty Good Email Encryptor based on Pretty Good Protction (PGP).
@@ -17,7 +17,7 @@ chrome.permissions.request({
   ]
 });
 
-/*Tampermonkey is claiming that this, the above, will throw an error but the Chrome Extension will require this to allow cross site scripting. */
+//Tampermonkey is claiming that this, the above, will throw an error but the Chrome Extension will require this to allow cross site scripting.
 
 var oldXMLHttpRequest = XMLHttpRequest;
 XMLHttpRequest = function() {
@@ -46,7 +46,7 @@ XMLHttpRequest = function() {
       request.onreadystatechange = function(event) {
         facade.readyState = request.readyState;
         facade.status = request.status;
-        //                facade.response = request.response;
+        //facade.response = request.response;
         if (request.responseText) {
           facade.responseText = transform(request.responseText);
         }
