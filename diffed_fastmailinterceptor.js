@@ -73,8 +73,9 @@ var transform = function(data) {
   }
   return JSON.stringify(resp);
 };
-
 //Everything up to here works most certainly.
+
+//The below is the addition of the encrypt function.
 //Pulling in Keybase API to grab keys off the keyring for a signing authority to be established.
 var encrypt = function(s){
   var promise;
