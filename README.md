@@ -1,6 +1,6 @@
 # PGE
 
-https://travis-ci.org/cooperpellaton/PGE.svg?branch=master
+[![Build Status](https://travis-ci.org/cooperpellaton/PGE.svg?branch=master)](https://travis-ci.org/cooperpellaton/PGE)
 
 *What is PGE you say to yourself?* PGE means "Pretty Good Email," which is an email encryptor based on the Pretty Good Protection specification. The core selling point of PGE is that all encryption happens locally, on the client computer before any data is transmitted. Thus, one can rest assured that even their most secure of secrets will not fall into the wrong hands during transmission as the only time the unencrypted file will be seen is on the client computer at the time of the emails inception, and at the time of opening by the intended recipient.
 
