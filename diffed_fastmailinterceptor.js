@@ -71,6 +71,9 @@ kbpgp.box(params, function(err, result_string, result_buffer) {
 	console.log(err, result_string, result_buffer);
 });
 
+//Need to insert key loading here so that box can handle.
+//https://keybase.io/kbpgp/docs/loading_a_key
+
 
 var transform = function(data) {
 	var resp = JSON.parse(data);
