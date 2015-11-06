@@ -74,6 +74,35 @@ kbpgp.box(params, function(err, result_string, result_buffer) {
 //Need to insert key loading here so that box can handle.
 //https://keybase.io/kbpgp/docs/loading_a_key
 
+//This is a key loader.
+var userID_public_key = "-----BEGIN PGP PUBLIC ... etc.";
+var userID_private_key = "-----BEGIN PGP PRIVATE ... etc.";
+var userID_passphrase = "ovarian fred savage ";
+
+kbpgp.KeyManager.import_from_armored_pgp({
+  armored: userID_public_key
+}, function(err, userID) {
+  if (!err) {
+    userID.merge_pgp_private({
+      armored: userID_private_key
+    }, function(err) {
+      if (!err) {
+        if (userID.is_pgp_locked()) {
+          userID.unlock_pgp({
+            passphrase: userID_passphrase
+          }, function(err) {
+            if (!err) {
+              console.log("Loaded private key with passphrase");
+            }
+          });
+        } else {
+          console.log("Loaded private key w/o passphrase");
+        }
+      }
+    });
+  }
+});
+
 
 var transform = function(data) {
 	var resp = JSON.parse(data);
