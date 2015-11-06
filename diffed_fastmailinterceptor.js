@@ -74,33 +74,35 @@ kbpgp.box(params, function(err, result_string, result_buffer) {
 //Need to insert key loading here so that box can handle.
 //https://keybase.io/kbpgp/docs/loading_a_key
 
-//This is a key loader.
+//This is a key loader, it initializes with the users public key and then adds the private key to it aferward. This will throw and error if the private key does not match the public key.
 var userID_public_key = "-----BEGIN PGP PUBLIC ... etc.";
 var userID_private_key = "-----BEGIN PGP PRIVATE ... etc.";
 var userID_passphrase = "ovarian fred savage ";
 
+//Any variable defined or starting with 'userID' needs to explicitly defined through another function which I have not yet written. This build will continue to fail until that has been done.
+
 kbpgp.KeyManager.import_from_armored_pgp({
-  armored: userID_public_key
+	armored: userID_public_key
 }, function(err, userID) {
-  if (!err) {
-    userID.merge_pgp_private({
-      armored: userID_private_key
-    }, function(err) {
-      if (!err) {
-        if (userID.is_pgp_locked()) {
-          userID.unlock_pgp({
-            passphrase: userID_passphrase
-          }, function(err) {
-            if (!err) {
-              console.log("Loaded private key with passphrase");
-            }
-          });
-        } else {
-          console.log("Loaded private key w/o passphrase");
-        }
-      }
-    });
-  }
+	if (!err) {
+		userID.merge_pgp_private({
+			armored: userID_private_key
+		}, function(err) {
+			if (!err) {
+				if (userID.is_pgp_locked()) {
+					userID.unlock_pgp({
+						passphrase: userID_passphrase
+					}, function(err) {
+						if (!err) {
+							console.log("Loaded private key with passphrase");
+						}
+					});
+				} else {
+					console.log("Loaded private key w/o passphrase");
+				}
+			}
+		});
+	}
 });
 
 
@@ -133,6 +135,20 @@ var encrypt = function(s) {
 	handleResponsePromise(promise, callback);
 }
 
+/*This is sample code from KeybasePGP that encrypts a provided message.
+TODO: write a function that parses the input data that we have to make it accessible to the encrypt and decrypt functions.
+var params = {
+  msg:         "Chuck chucky, bo-bucky! This is Alice here!",
+  encrypt_for: chuck,
+  sign_with:   alice
+};
+
+kbpgp.box (params, function(err, result_string, result_buffer) {
+  console.log(err, result_string, result_buffer);
+});
+End instance of sample code.*/
+
+//This function is currently undefined and will need to return the decrypted text via the key handler that was provided above.
 var decrypt = function(s) {}
 	//This is older code that handles the window sourcing.
 	/*
